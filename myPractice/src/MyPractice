@@ -1,0 +1,165 @@
+        String str = "123";
+        List<Integer> myList = Arrays.asList(1,2,3,4,4);
+
+        String myString = myList.stream()
+                        .map(String::valueOf)
+                                .collect(Collectors.joining());
+
+
+
+        System.out.println(reverse(myString));
+        System.out.println("Even and Odd List");
+        myEvenOddList(myList);
+        uniqueList(myList);
+        mySortedDouble();
+    }
+
+    public static String reverse(String str1){
+
+        StringBuilder out = new StringBuilder();
+
+        char[] chars = str1.toCharArray();
+
+        for(int i = chars.length-1;i>=0;i--){
+            out.append(chars[i]);
+        }
+
+        return out.toString();
+
+    }
+
+
+    //Separate odd and even numbers in a list of integers
+    public static void myEvenOddList(List<Integer> myList) {
+        Set<Integer> EvenList = myList.stream()
+                .filter(n -> n % 2 == 0)
+                .collect(Collectors.toSet());
+        Set<Integer> OddList = myList.stream()
+                .filter(n -> n % 2 != 0)
+                .collect(Collectors.toSet());
+        System.out.println("Even List: " + EvenList);
+        System.out.println("Even List: " + OddList);
+    }
+
+   // Remove duplicate elements from a list using Java 8 streams
+   // Write a Java 8 program to remove duplicate elements from a
+    // list using the stream API and lambda expressions.
+    public static void uniqueList(List<Integer> myList){
+        Set<Integer> myUnique = new HashSet<>(myList);
+        System.out.println(myUnique);
+    }
+
+//    Find the frequency of each character in a string using Java 8 streams
+//
+//    Write a Java 8 program to find the frequency of each
+//    character in a given string using the stream API and collectors.
+    public static <Hashmap> void frequencyCharacter(String myString){
+        Map<Character,Long> frequesncyCharac =  myString.chars()
+                .mapToObj(c->(char) c)
+                .collect(Collectors.groupingBy(
+                        Function.identity(),Collectors.counting()
+                ));
+
+        frequesncyCharac.forEach(((character, Long) -> System.out.println(character + ": "+ Long)));
+
+
+        String vowel = "AEIOUaeiou";
+
+        Map<String,Long> vowelmu = myString.chars()
+                .mapToObj(c->(char)c)
+                .collect(Collectors.groupingBy(c->vowel.indexOf(c)>=0? "Vowel": "nonVowel",Collectors.counting()));
+    }
+
+//    Find the frequency of each element in an array or a list
+//
+//    Write a Java 8 program to find the frequency of each element in an array
+//    or a list using streams and collectors.
+    public static void mySortedDouble() {
+
+        List<Integer> myList3 = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+
+        Map<Integer, Long> myNewList = myList3.stream()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+
+        List<Double> myDoubleList = Arrays.asList(2.2, 6.3, 2.3);
+        List<Double> myDouble = myDoubleList.stream()
+                .sorted(Comparator.reverseOrder())
+                .toList();
+        System.out.println(myDouble);
+    }
+
+
+    public static void mySortedPersonList(List<Person> myList){
+        Optional<Person> SortedList = myList.stream()
+                .sorted(Comparator.comparing(Person::getName).thenComparing(Person::getAge)).skip(2).findAny();
+
+
+        List<Person> SortedList2 = myList.stream()
+                .sorted((a,b)->a.getName().compareTo(b.getName())).toList();
+    }
+
+    //Join List of String
+    public static void joinListOfString(){
+        List<String> myString = Arrays.asList("Java","C++","Pyhton");
+        String oneString = myString.stream()
+                .collect(Collectors.joining(",","{","}"));
+    }
+
+
+    public static void maxAndMin(){
+        List<Integer> myList = Arrays.asList(10,20,40,60);
+
+        OptionalInt myMax = myList.stream().mapToInt(Integer::intValue).max();
+    }
+
+
+
+class Person{
+    private String name;
+    private int age;
+
+public int getAge(){
+    return age;
+}
+public String getName(){
+    return name;
+}
+
+public String toString(){
+    return name + " " + age;
+}
+
+@Override
+public boolean equals(Object o){
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Person person = (Person) o;
+    return age == person.age && Objects.equals(name, person.name);
+}
+
+@Override
+public int hashCode(){
+    return Objects.hash(name, age);
+}
+
+//sql Queries
+//1. Write an SQL query to fetch the EmpId and FullName of all the employees working under the Manager with id – ‘986’.
+SELECT  EmpId, FullName
+FROM EmployeeDetails
+WHERE ManagerId = 986;
+
+SELECT DISTINCT(Project)
+FROM EmployeeSalary;
+
+SELECT COUNT(*)
+FROM EmployeeSalary
+WHERE Project = 'P1';
+
+SELECT EMPid from Ep
+
+
+Select Project, Count(EmpdId) as EMPCount
+from EmpSalary
+
+
